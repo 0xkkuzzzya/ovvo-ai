@@ -226,25 +226,23 @@ export const Workbench = () => {
     };
 
     const SendingInput = async () => {
-
-        const requestBody = {
-            model: model,
-            messages: [
-                {
-                    role: "user",
-                    content: value
-                }
-            ],
-            max_tokens: "1000"
-        };
-
         try {
             const res = await fetch('http://46.226.162.53:5678/webhook/chat', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'x-api-key': user.key
                 },
-                body: JSON.stringify({ requestBody }),
+                body: JSON.stringify({
+                    model: model,
+                    messages: [
+                        {
+                            role: "user",
+                            content: value
+                        }
+                    ],
+                    max_tokens: "1000"
+                }),
             });
 
             const data = await res.json();
@@ -257,11 +255,13 @@ export const Workbench = () => {
                     role: data.result.role || "",
                     value: data.result.content.text.value || ""
                 })
+                console.log(prompt)
                 setPrompData({
                     name_prompt: "Untitled",
                     model: model || "",
                     messages: [prompt.value]
                 })
+                console.log(promptData)
             } else {
                 alert('Error');
             }
@@ -304,7 +304,7 @@ export const Workbench = () => {
                 <OutPromtBlock>
                     <OutPrompt>
                         <AIName>Ovvo</AIName>
-                        {Array.isArray(promptData.messages) && promptData.messages.length > 0 ? 
+                        {Array.isArray(promptData.messages) && promptData.messages.length > 0 ?
                             <PromiseContainer>
                                 {promptData.messages.map((message: string, index: number) => (
                                     <PromiseBlock key={index}>

@@ -79,6 +79,7 @@ export const Login = () => {
                     password: password || ""
                 })
                 localStorage.setItem('username', username);
+                localStorage.setItem('password', password);
                 localStorage.setItem('login', 'true');
                 navigate('/dashboard');
             } else {
