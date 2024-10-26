@@ -56,7 +56,7 @@ export const Login = () => {
 
     const handleLogin = async () => {
         try {
-            const res = await fetch('http://46.226.162.53:5678/webhook/login', {
+            const res = await fetch('https://api-bridge-six.vercel.app/api/webhook/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

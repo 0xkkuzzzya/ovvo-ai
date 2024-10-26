@@ -227,11 +227,12 @@ export const Workbench = () => {
 
     const SendingInput = async () => {
         try {
-            const res = await fetch('http://46.226.162.53:5678/webhook/chat', {
+            const res = await fetch('https://api-bridge-six.vercel.app/api/webhook/chat', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'x-api-key': user.key
+                    'x-api-key': user.key,
+                    'Access-Control-Allow-Origin': '*'
                 },
                 body: JSON.stringify({
                     model: model,
