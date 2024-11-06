@@ -46,6 +46,20 @@ const LoginButton = styled.button`
     cursor: pointer;
 `
 
+const Header = styled.div`
+    width: 100%;
+    height: 70px;
+    display: flex;
+    align-items: center;
+`
+
+const HeaderCompName = styled.a`
+    color: #fff;
+    font-size: 18px;
+    font-weight: 400;
+    margin-left: 50px;
+`
+
 
 export const Login = () => {
 
@@ -56,7 +70,7 @@ export const Login = () => {
 
     const handleLogin = async () => {
         try {
-            const res = await fetch('https://api-bridge-six.vercel.app/api/webhook/login', {
+            const res = await fetch('http://46.226.162.53:5678/webhook/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -91,19 +105,25 @@ export const Login = () => {
     };
 
     return (
-        <Container>
-            <Input
-                placeholder="Login"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-            />
-            <Input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
-            <LoginButton onClick={handleLogin}>Login</LoginButton>
-        </Container>
+
+        <>
+        <Header>
+            <HeaderCompName>Ovvo.AI</HeaderCompName>
+        </Header>
+            <Container>
+                <Input
+                    placeholder="Login"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                />
+                <Input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                <LoginButton onClick={handleLogin}>Login</LoginButton>
+            </Container>
+        </>
     )
 }

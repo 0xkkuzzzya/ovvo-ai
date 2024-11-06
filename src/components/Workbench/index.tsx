@@ -208,6 +208,12 @@ const MarkdownText = styled(ReactMarkdown)`
     font-weight: 500;
 `
 
+const ErrorMessage = styled.a`
+    color: #fff;
+    font-family: 500;
+    font-size: 16px;
+`
+
 //#683b28
 //#ff4d00
 
@@ -219,6 +225,8 @@ export const Workbench = () => {
     const [prompt, setPrompt] = usePrompt();
     const [user, setUser] = useUser();
 
+    const login = localStorage.getItem("login")
+
     let { model } = useParams()
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -227,12 +235,11 @@ export const Workbench = () => {
 
     const SendingInput = async () => {
         try {
-            const res = await fetch('https://api-bridge-six.vercel.app/api/webhook/chat', {
+            const res = await fetch('http://46.226.162.53:5678/webhook/chat', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'x-api-key': user.key,
-                    'Access-Control-Allow-Origin': '*'
                 },
                 body: JSON.stringify({
                     model: model,
@@ -272,53 +279,61 @@ export const Workbench = () => {
     }
 
     return (
-        <Container>
-            <Header>
-                <FunctionalBlockInHeader>
-                    <AddNewPromtButton>
-                        <AddNewPromtButtonIcon src={AddPrompt} />
-                    </AddNewPromtButton>
-                    <HistoryPromtButton>
-                        <HistoryPromtButtonLogo src={HistoryPrompt} />
-                    </HistoryPromtButton>
-                    {/* кнопка с названием промта открывает модалку
-                        если название промта не задано вставлять Untitled */}
-                    <NamePromtButton>
-                        {promptData.name_prompt}
-                    </NamePromtButton>
-                    <ModelName>{model}</ModelName>
-                </FunctionalBlockInHeader>
-                <RunButton onClick={SendingInput} background={value !== "" ? "#ff4d00" : "#683b28"}>Run</RunButton>
-            </Header>
-            <ContentBlock>
-                <PromtBlock>
-                    <AddPromptField>
-                        <WritePromtInput
-                            value={value}
-                            onChange={handleInputChange}
-                            placeholder={`Напишите запрос ${model}`} />
-                    </AddPromptField>
-                    <HistoryPromtBlock>
 
-                    </HistoryPromtBlock>
-                </PromtBlock>
-                <OutPromtBlock>
-                    <OutPrompt>
-                        <AIName>Ovvo</AIName>
-                        {Array.isArray(promptData.messages) && promptData.messages.length > 0 ?
-                            <PromiseContainer>
-                                {promptData.messages.map((message: string, index: number) => (
-                                    <PromiseBlock key={index}>
-                                        <MarkdownText>{message}</MarkdownText>
-                                    </PromiseBlock>
-                                ))}
-                            </PromiseContainer>
-                            :
-                            <></>
-                        }
-                    </OutPrompt>
-                </OutPromtBlock>
-            </ContentBlock>
-        </Container>
+        <>
+            {
+                login != "true" ?
+                <><ErrorMessage>you need to log in</ErrorMessage></>
+                    :
+                    <Container>
+                        <Header>
+                            <FunctionalBlockInHeader>
+                                <AddNewPromtButton>
+                                    <AddNewPromtButtonIcon src={AddPrompt} />
+                                </AddNewPromtButton>
+                                <HistoryPromtButton>
+                                    <HistoryPromtButtonLogo src={HistoryPrompt} />
+                                </HistoryPromtButton>
+                                {/* кнопка с названием промта открывает модалку
+                        если название промта не задано вставлять Untitled */}
+                                <NamePromtButton>
+                                    {promptData.name_prompt}
+                                </NamePromtButton>
+                                <ModelName>{model}</ModelName>
+                            </FunctionalBlockInHeader>
+                            <RunButton onClick={SendingInput} background={value !== "" ? "#ff4d00" : "#683b28"}>Run</RunButton>
+                        </Header>
+                        <ContentBlock>
+                            <PromtBlock>
+                                <AddPromptField>
+                                    <WritePromtInput
+                                        value={value}
+                                        onChange={handleInputChange}
+                                        placeholder={`Напишите запрос ${model}`} />
+                                </AddPromptField>
+                                <HistoryPromtBlock>
+
+                                </HistoryPromtBlock>
+                            </PromtBlock>
+                            <OutPromtBlock>
+                                <OutPrompt>
+                                    <AIName>Ovvo</AIName>
+                                    {Array.isArray(promptData.messages) && promptData.messages.length > 0 ?
+                                        <PromiseContainer>
+                                            {promptData.messages.map((message: string, index: number) => (
+                                                <PromiseBlock key={index}>
+                                                    <MarkdownText>{message}</MarkdownText>
+                                                </PromiseBlock>
+                                            ))}
+                                        </PromiseContainer>
+                                        :
+                                        <></>
+                                    }
+                                </OutPrompt>
+                            </OutPromtBlock>
+                        </ContentBlock>
+                    </Container>
+            }
+        </>
     )
 }

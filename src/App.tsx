@@ -14,7 +14,7 @@ function App() {
 
 	const handleLogin = async () => {
 		try {
-			const res = await fetch('https://api-bridge-six.vercel.app/api/webhook/login', {
+			const res = await fetch('http://46.226.162.53:5678/webhook/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -54,6 +54,16 @@ function App() {
 			login();
 		}
 	}, []);
+
+	useEffect(() => {
+        const handleBeforeUnload = () => {
+            localStorage.clear(); 
+        };
+        window.onbeforeunload = handleBeforeUnload;
+        return () => {
+            window.onbeforeunload = null;
+        };
+    }, []);
 
 	return (
 		<div className="App">

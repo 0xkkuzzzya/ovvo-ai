@@ -42,44 +42,60 @@ const MenuItem = styled.div`
     }
 `
 
+const ErrorMessage = styled.a`
+    color: #fff;
+    font-family: 500;
+    font-size: 16px;
+`
+
 
 export const Settings = () => {
 
     const [page, setPage] = useState("Details")
 
+    const login = localStorage.getItem("login")
+
     return (
-        <Container>
-            <MenuBlock>
-                <MenuItem 
-                style={{color: page == "Details" ? "#fff" : "#bababa"}}
-                onClick={() => { setPage("Details") }}>
-                    Details
-                </MenuItem>
-                <MenuItem 
-                style={{color: page == "Friends" ? "#fff" : "#bababa"}}
-                onClick={() => { setPage("Friends") }}>
-                    Friends
-                </MenuItem>
-                <MenuItem 
-                style={{color: page == "Limits" ? "#fff" : "#bababa"}}
-                onClick={() => { setPage("Limits") }}>
-                    Limits
-                </MenuItem>
-                <MenuItem 
-                style={{
-                    color: page == "API keys" ? "#fff" : "#bababa"
-                }}
-                onClick={() => { setPage("API keys") }}>
-                    API keys
-                </MenuItem>
-            </MenuBlock>
-            <ContentBlock>
-                {page == "Details" && <Details/>}
-                {page == "Friends" && <Fiends/>}
-                {page == "Limits" && <Limits/>}
-                {page == "API keys" && <GetAPIKey/>}
-            </ContentBlock>
-        </Container>
+        <>
+            {
+                login != "true" ?
+                    <><ErrorMessage>you need to log in</ErrorMessage></>
+                    :
+
+                    <Container>
+                        <MenuBlock>
+                            <MenuItem
+                                style={{ color: page == "Details" ? "#fff" : "#bababa" }}
+                                onClick={() => { setPage("Details") }}>
+                                Details
+                            </MenuItem>
+                            <MenuItem
+                                style={{ color: page == "Friends" ? "#fff" : "#bababa" }}
+                                onClick={() => { setPage("Friends") }}>
+                                Friends
+                            </MenuItem>
+                            <MenuItem
+                                style={{ color: page == "Limits" ? "#fff" : "#bababa" }}
+                                onClick={() => { setPage("Limits") }}>
+                                Limits
+                            </MenuItem>
+                            <MenuItem
+                                style={{
+                                    color: page == "API keys" ? "#fff" : "#bababa"
+                                }}
+                                onClick={() => { setPage("API keys") }}>
+                                API keys
+                            </MenuItem>
+                        </MenuBlock>
+                        <ContentBlock>
+                            {page == "Details" && <Details />}
+                            {page == "Friends" && <Fiends />}
+                            {page == "Limits" && <Limits />}
+                            {page == "API keys" && <GetAPIKey />}
+                        </ContentBlock>
+                    </Container>
+            }
+        </>
     )
 }
 

@@ -67,6 +67,12 @@ const UnderText = styled.a`
     cursor: pointer;
 `
 
+const ErrorMessage = styled.a`
+    color: #fff;
+    font-family: 500;
+    font-size: 16px;
+`
+
 
 export const Dashboard = () => {
 
@@ -75,34 +81,43 @@ export const Dashboard = () => {
     let Ovvo = "ovvo-1-2024-small"
     let Perplexity = "llama-3.1-sonar-small-128k-online"
 
+    const login = localStorage.getItem("login")
+
     return (
-        <Container>
-            <NavigateBlock>
-                <MainText>Hello, {user.name}</MainText>
-                <Link to={`/workbench/${Ovvo}`} style={{ textDecoration: "none", width: "100%" }}>
-                    <NavigateItem>
-                        <NagigateItemLogo src={WriteToRAG} />
-                        <NagigateItemText>Write a prompt to Ovvo AI</NagigateItemText>
-                    </NavigateItem>
-                </Link>
-                <Link to={`/workbench/${Perplexity}`} style={{ textDecoration: "none", width: "100%" }}>
-                    <NavigateItem>
-                        <NagigateItemLogo src={WriteToPerplex} />
-                        <NagigateItemText>Write a prompt to Perplexity AI</NagigateItemText>
-                    </NavigateItem>
-                </Link>
-                <Link to="/uploadfile" style={{ textDecoration: "none", width: "100%" }}>
-                    <NavigateItem>
-                        <NagigateItemLogo src={AddFile} />
-                        <NagigateItemText>Upload file to Ovvo AI</NagigateItemText>
-                    </NavigateItem>
-                </Link>
-                <NavigateItem>
-                    <NagigateItemLogo src={FriendsAdd} />
-                    <NagigateItemText>Invite your friends to your Ovvo AI</NagigateItemText>
-                </NavigateItem>
-            </NavigateBlock>
-            <UnderText>Help & Support</UnderText>
-        </Container>
+        <>
+            {
+                login != "true" ?
+                    <><ErrorMessage>you need to log in</ErrorMessage></>
+                    :
+                    <Container>
+                        <NavigateBlock>
+                            <MainText>Hello, {user.name}</MainText>
+                            <Link to={`/workbench/${Ovvo}`} style={{ textDecoration: "none", width: "100%" }}>
+                                <NavigateItem>
+                                    <NagigateItemLogo src={WriteToRAG} />
+                                    <NagigateItemText>Write a prompt to Ovvo AI</NagigateItemText>
+                                </NavigateItem>
+                            </Link>
+                            <Link to={`/workbench/${Perplexity}`} style={{ textDecoration: "none", width: "100%" }}>
+                                <NavigateItem>
+                                    <NagigateItemLogo src={WriteToPerplex} />
+                                    <NagigateItemText>Write a prompt to Perplexity AI</NagigateItemText>
+                                </NavigateItem>
+                            </Link>
+                            <Link to="/uploadfile" style={{ textDecoration: "none", width: "100%" }}>
+                                <NavigateItem>
+                                    <NagigateItemLogo src={AddFile} />
+                                    <NagigateItemText>Upload file to Ovvo AI</NagigateItemText>
+                                </NavigateItem>
+                            </Link>
+                            <NavigateItem>
+                                <NagigateItemLogo src={FriendsAdd} />
+                                <NagigateItemText>Invite your friends to your Ovvo AI</NagigateItemText>
+                            </NavigateItem>
+                        </NavigateBlock>
+                        <UnderText>Help & Support</UnderText>
+                    </Container>
+            }
+        </>
     )
 }

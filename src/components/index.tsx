@@ -28,7 +28,7 @@ const routes = [
 export const MainIndex = () => {
     return(
         <Container>
-            <Header/>
+            {window.location.pathname !== '/' && <Header />}
             <Routes>
                 {routes.map(({ path, element }) =>
                     <Route key={path} path={path} element={element} />
